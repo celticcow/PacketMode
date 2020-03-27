@@ -16,7 +16,7 @@ gregory.dunlap / celtic_cow
 """
 if __name__ == "__main__":
     
-    debug = 1
+    debug = 0
 
     if(debug == 1):
         print("packet mode search  : version 0.1")
@@ -37,6 +37,9 @@ if __name__ == "__main__":
 
     and does not equil AND   the all cap's matter a LOT
     """
+
+    object_dic = {}
+
     packet_mode_json = {
         "name" : "HubLab Network",
         "filter" : "src:146.18.2.137 AND dst:204.135.16.50 AND svc:443",
@@ -49,7 +52,49 @@ if __name__ == "__main__":
 
     packet_result = apifunctions.api_call(ip_addr, "show-access-rulebase", packet_mode_json,sid)
 
-    print(json.dumps(packet_result))
+    if(packet_result['total'] >= 1):
+
+        if(debug == 1):
+            print(json.dumps(packet_result))
+
+            print("******* OBJ DIC *******")
+            print(packet_result['objects-dictionary'])
+
+        objdic_size = len(packet_result['objects-dictionary'])
+        #print(objdic_size)
+        for j in range(objdic_size):
+            if(debug == 1):
+                print(packet_result['objects-dictionary'][j]['name'])
+                print(packet_result['objects-dictionary'][j]['uid'])
+            object_dic[packet_result['objects-dictionary'][j]['uid']] = packet_result['objects-dictionary'][j]['name']
+        if(debug == 1):
+            print("******* OBJ DIC *******")
+
+            print(object_dic)
+
+            print("*************************************************")
+
+        for i in range(packet_result['total']):
+            if(debug == 1):
+                print(packet_result['rulebase'][i])
+                print("^^^^^^^^^")
+            print("rule number: " + str(packet_result['rulebase'][i]['rule-number']))
+            #print(packet_result['rulebase'][i]['source'])
+            #print(packet_result['rulebase'][i]['destination'])
+            #print(packet_result['rulebase'][i]['service'])
+            print("Source:")
+            for x in packet_result['rulebase'][i]['source']:
+                print(object_dic[x])
+            print("Destination:")
+            for x in packet_result['rulebase'][i]['destination']:
+                print(object_dic[x])
+            print("Service:")
+            for x in packet_result['rulebase'][i]['service']:
+                print(object_dic[x])
+            print("-------------------------------------------------------")
+    else:
+        print("No rule found")
+    
     # don't need to publish
     time.sleep(20)
 
