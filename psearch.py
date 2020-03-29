@@ -16,13 +16,13 @@ gregory.dunlap / celtic_cow
 """
 if __name__ == "__main__":
     
-    debug = 0
+    debug = 1
 
     if(debug == 1):
         print("packet mode search  : version 0.1")
 
-    ip_addr  = "146.18.96.16"
-    ip_cma   = "146.18.96.25"
+    ip_addr  = "192.168.159.150"
+    ip_cma   = "192.168.159.151"
     user     = "roapi"
     password = "1qazxsw2"
 
@@ -40,19 +40,34 @@ if __name__ == "__main__":
 
     object_dic = {}
 
+    #packet_mode_json = {
+    #    "name" : "HubLab Network",
+    #    "filter" : "src:146.18.2.137 AND dst:204.135.16.50 AND svc:443",
+    #    "filter-settings" : {
+    #        "search-mode" : "packet"
+    #    }
+    #}
     packet_mode_json = {
-        "name" : "HubLab Network",
+        "name" : "services-zmd Security",
         "filter" : "src:146.18.2.137 AND dst:204.135.16.50 AND svc:443",
         "filter-settings" : {
             "search-mode" : "packet"
         }
     }
-    
     print(packet_mode_json)
 
     packet_result = apifunctions.api_call(ip_addr, "show-access-rulebase", packet_mode_json,sid)
 
     if(packet_result['total'] >= 1):
+
+        depth = packet_result['rulebase'][0]['type']
+        # access-rule
+        # access-section
+        # need to check inline layers
+        if(debug == 1):
+            print("_________________________")
+            print(depth)
+            print("_________________________")
 
         if(debug == 1):
             print(json.dumps(packet_result))
@@ -76,21 +91,48 @@ if __name__ == "__main__":
 
         for i in range(packet_result['total']):
             if(debug == 1):
-                print(packet_result['rulebase'][i])
+                print(packet_result['total'])
+            if(debug == 1):
+                #print(packet_result['rulebase'][i]['rulebase'])
                 print("^^^^^^^^^")
-            print("rule number: " + str(packet_result['rulebase'][i]['rule-number']))
-            #print(packet_result['rulebase'][i]['source'])
-            #print(packet_result['rulebase'][i]['destination'])
-            #print(packet_result['rulebase'][i]['service'])
-            print("Source:")
-            for x in packet_result['rulebase'][i]['source']:
-                print(object_dic[x])
-            print("Destination:")
-            for x in packet_result['rulebase'][i]['destination']:
-                print(object_dic[x])
-            print("Service:")
-            for x in packet_result['rulebase'][i]['service']:
-                print(object_dic[x])
+            #print("rule number: " + str(packet_result['rulebase'][i]['rulebase'][0]['rule-number']))
+            
+            if(debug == 1):
+                #no global
+                if(depth == "access-rule"):
+                    print("rule number: " + str(packet_result['rulebase'][i]['rule-number']))
+                    print(packet_result['rulebase'][i]['source'])
+                    print(packet_result['rulebase'][i]['destination'])
+                    print(packet_result['rulebase'][i]['service'])
+                #global = yes
+                if(depth == "access-section"):
+                    print("rule number: " + str(packet_result['rulebase'][i]['rulebase'][0]['rule-number']))
+                    print(packet_result['rulebase'][i]['rulebase'][0]['source'])
+                    print(packet_result['rulebase'][i]['rulebase'][0]['destination'])
+                    print(packet_result['rulebase'][i]['rulebase'][0]['service'])
+
+            ## need to figure out why extra index ?
+            if(depth == "access-rule"):
+                print("Source:")
+                for x in packet_result['rulebase'][i]['source']:
+                    print(object_dic[x])
+                print("Destination:")
+                for x in packet_result['rulebase'][i]['destination']:
+                    print(object_dic[x])
+                print("Service:")
+                for x in packet_result['rulebase'][i]['service']:
+                    print(object_dic[x])
+            if(depth == "access-section"):
+                print("Source:")
+                for x in packet_result['rulebase'][i]['rulebase'][0]['source']:
+                    print(object_dic[x])
+                print("Destination:")
+                for x in packet_result['rulebase'][i]['rulebase'][0]['destination']:
+                    print(object_dic[x])
+                print("Service:")
+                for x in packet_result['rulebase'][i]['rulebase'][0]['service']:
+                    print(object_dic[x])
+            
             print("-------------------------------------------------------")
     else:
         print("No rule found")
