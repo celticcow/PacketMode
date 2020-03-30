@@ -89,12 +89,22 @@ def get_rules(ip_addr, search_json, sid):
                     print(packet_result['rulebase'][i]['source'])
                     print(packet_result['rulebase'][i]['destination'])
                     print(packet_result['rulebase'][i]['service'])
+                    try:
+                        print(packet_result['rulebase'][i]['inline-layer'])
+                        print("Inline above yo")
+                    except:
+                        pass
                 #global = yes
                 if(depth == "access-section"):
                     print("rule number: " + str(packet_result['rulebase'][i]['rulebase'][0]['rule-number']))
                     print(packet_result['rulebase'][i]['rulebase'][0]['source'])
                     print(packet_result['rulebase'][i]['rulebase'][0]['destination'])
                     print(packet_result['rulebase'][i]['rulebase'][0]['service'])
+                    try:
+                        print(packet_result['rulebase'][i]['rulebase'][0]['inline-layer'])
+                        print("Inline Above Yo")
+                    except:
+                        pass
 
             ## need to figure out why extra index ?
             if(depth == "access-rule"):
