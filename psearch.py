@@ -39,6 +39,94 @@ def get_policies(ip_addr,sid):
     return(policy_select)
 #end of get_policies
 
+def get_rules(ip_addr, search_json, sid):
+    print("-=-=-= In get_rules() =-=-=-")
+    object_dic   = {}
+
+    packet_result = apifunctions.api_call(ip_addr, "show-access-rulebase", search_json, sid)
+
+    if(packet_result['total'] >= 1):
+
+        depth = packet_result['rulebase'][0]['type']
+        # access-rule
+        # access-section
+        # need to check inline layers todo
+        if(debug == 1):
+            print("_________________________")
+            print(depth)
+            print("_________________________")
+
+        if(debug == 1):
+            print(json.dumps(packet_result))
+
+            print("******* OBJ DIC *******")
+            print(packet_result['objects-dictionary'])
+
+        objdic_size = len(packet_result['objects-dictionary'])
+        #print(objdic_size)
+        for j in range(objdic_size):
+            if(debug == 1):
+                print(packet_result['objects-dictionary'][j]['name'])
+                print(packet_result['objects-dictionary'][j]['uid'])
+            object_dic[packet_result['objects-dictionary'][j]['uid']] = packet_result['objects-dictionary'][j]['name']
+        if(debug == 1):
+            print("******* OBJ DIC *******")
+
+            print(object_dic)
+
+            print("*************************************************")
+
+        for i in range(packet_result['total']):
+            if(debug == 1):
+                print(packet_result['total'])
+            if(debug == 1):
+                #print(packet_result['rulebase'][i]['rulebase'])
+                print("^^^^^^^^^")
+            #print("rule number: " + str(packet_result['rulebase'][i]['rulebase'][0]['rule-number']))
+            
+            if(debug == 1):
+                #no global
+                if(depth == "access-rule"):
+                    print("rule number: " + str(packet_result['rulebase'][i]['rule-number']))
+                    print(packet_result['rulebase'][i]['source'])
+                    print(packet_result['rulebase'][i]['destination'])
+                    print(packet_result['rulebase'][i]['service'])
+                #global = yes
+                if(depth == "access-section"):
+                    print("rule number: " + str(packet_result['rulebase'][i]['rulebase'][0]['rule-number']))
+                    print(packet_result['rulebase'][i]['rulebase'][0]['source'])
+                    print(packet_result['rulebase'][i]['rulebase'][0]['destination'])
+                    print(packet_result['rulebase'][i]['rulebase'][0]['service'])
+
+            ## need to figure out why extra index ?
+            if(depth == "access-rule"):
+                print("rule number: " + str(packet_result['rulebase'][i]['rule-number']))
+                print("Source:")
+                for x in packet_result['rulebase'][i]['source']:
+                    print(object_dic[x])
+                print("Destination:")
+                for x in packet_result['rulebase'][i]['destination']:
+                    print(object_dic[x])
+                print("Service:")
+                for x in packet_result['rulebase'][i]['service']:
+                    print(object_dic[x])
+            if(depth == "access-section"):
+                #print(packet_result['rulebase'][i]['rulebase'][0]['inline-layer'])
+                print("rule number: " + str(packet_result['rulebase'][i]['rulebase'][0]['rule-number']))
+                print("Source:")
+                for x in packet_result['rulebase'][i]['rulebase'][0]['source']:
+                    print(object_dic[x])
+                print("Destination:")
+                for x in packet_result['rulebase'][i]['rulebase'][0]['destination']:
+                    print(object_dic[x])
+                print("Service:")
+                for x in packet_result['rulebase'][i]['rulebase'][0]['service']:
+                    print(object_dic[x])
+            
+            print("-------------------------------------------------------")
+    else:
+        print("No rule found")
+
 if __name__ == "__main__":
     
     debug = 1
@@ -110,6 +198,8 @@ if __name__ == "__main__":
     if(debug == 1):
         print(packet_mode_json)
 
+    get_rules(ip_addr, packet_mode_json, sid)
+    """
     packet_result = apifunctions.api_call(ip_addr, "show-access-rulebase", packet_mode_json,sid)
 
     if(packet_result['total'] >= 1):
@@ -178,6 +268,7 @@ if __name__ == "__main__":
                 for x in packet_result['rulebase'][i]['service']:
                     print(object_dic[x])
             if(depth == "access-section"):
+                #print(packet_result['rulebase'][i]['rulebase'][0]['inline-layer'])
                 print("rule number: " + str(packet_result['rulebase'][i]['rulebase'][0]['rule-number']))
                 print("Source:")
                 for x in packet_result['rulebase'][i]['rulebase'][0]['source']:
@@ -192,7 +283,7 @@ if __name__ == "__main__":
             print("-------------------------------------------------------")
     else:
         print("No rule found")
-    
+    """
     # don't need to publish
     time.sleep(20)
 

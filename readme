@@ -2,8 +2,10 @@ do packet mode search
 
 todo :
 inline layer searches
+- you have to take the inline uid and repeat the search in that layer .. oh dang
 
-input for parts
 
 done :
 access rule vs access layer indexint
+input method done
+pull in policy names automagically

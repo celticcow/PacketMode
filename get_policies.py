@@ -13,6 +13,8 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 """
 test code to play around with getting policies from cma
+
+works and moved to function in psearch.py code tree
 """
 
 if __name__ == "__main__":
