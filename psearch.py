@@ -4,6 +4,7 @@ import requests
 import json
 import sys
 import time
+import argparse
 import apifunctions
 
 #remove the InsecureRequestWarning messages
@@ -14,6 +15,30 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 gregory.dunlap / celtic_cow
 
 """
+
+def get_policies(ip_addr,sid):
+    get_package_result = apifunctions.api_call(ip_addr,"show-packages", {"details-level" : "full"}, sid)
+
+    policy_select = {}
+    policy_index = 0 # things should start 0
+
+    for i in range(get_package_result['total']):
+        size_of_package = len(get_package_result['packages'][i]['access-layers'])
+        for j in range(size_of_package):
+            current_name = get_package_result['packages'][i]['access-layers'][j]['name']
+            if((current_name == "FDX_Services Security") or ("Application" in current_name) or (current_name == "Network")):
+                pass
+            else:
+                #print(current_name)
+                policy_select[policy_index] = current_name
+                policy_index = policy_index + 1
+        #print(get_package_result['packages'][i]['access-layers'][1]['name'])
+        #print(get_package_result['packages'][i]['access-layers'][2]['name'])
+
+    print(policy_select)
+    return(policy_select)
+#end of get_policies
+
 if __name__ == "__main__":
     
     debug = 1
@@ -21,8 +46,14 @@ if __name__ == "__main__":
     if(debug == 1):
         print("packet mode search  : version 0.1")
 
-    ip_addr  = "146.18.96.16"
-    ip_cma   = "146.18.96.25"
+    parser = argparse.ArgumentParser(description='Policy Extractor')
+    parser.add_argument("-m", required=True, help="MDS IP")
+    parser.add_argument("-c", required=True, help="CMA IP")
+
+    args = parser.parse_args()
+
+    ip_addr  = args.m
+    ip_cma   = args.c
     user     = "roapi"
     password = "1qazxsw2"
 
@@ -38,11 +69,26 @@ if __name__ == "__main__":
     and does not equil AND   the all cap's matter a LOT
     """
 
-    object_dic = {}
+    object_dic   = {}
+    policies_dic = {}
 
+    policies_dic = get_policies(ip_addr,sid)
+
+    if(debug == 1):
+        print("*****")
+        print(policies_dic)
+        print("*****")
+
+    for x in policies_dic:
+        print(str(x) + " : " + policies_dic[x])
+
+    policy     = input("Select a number above : ")
+    source_ip  = input("Enter Source IP : ")
+    dest_ip    = input("Enter Dest IP : ")
+    dport      = input("Enter Dest Port : ")
     packet_mode_json = {
-        "name" : "HubLab",
-        "filter" : "src:146.18.2.137 AND dst:204.135.16.50 AND svc:443",
+        "name" : policies_dic[int(policy)],
+        "filter" : "src:" + source_ip + " AND dst:" + dest_ip + " AND svc:" + dport,
         "filter-settings" : {
             "search-mode" : "packet"
         }
@@ -61,7 +107,8 @@ if __name__ == "__main__":
     #        "search-mode" : "packet"
     #    }
     #}
-    print(packet_mode_json)
+    if(debug == 1):
+        print(packet_mode_json)
 
     packet_result = apifunctions.api_call(ip_addr, "show-access-rulebase", packet_mode_json,sid)
 
@@ -120,6 +167,7 @@ if __name__ == "__main__":
 
             ## need to figure out why extra index ?
             if(depth == "access-rule"):
+                print("rule number: " + str(packet_result['rulebase'][i]['rule-number']))
                 print("Source:")
                 for x in packet_result['rulebase'][i]['source']:
                     print(object_dic[x])
@@ -130,6 +178,7 @@ if __name__ == "__main__":
                 for x in packet_result['rulebase'][i]['service']:
                     print(object_dic[x])
             if(depth == "access-section"):
+                print("rule number: " + str(packet_result['rulebase'][i]['rulebase'][0]['rule-number']))
                 print("Source:")
                 for x in packet_result['rulebase'][i]['rulebase'][0]['source']:
                     print(object_dic[x])
