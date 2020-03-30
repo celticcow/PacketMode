@@ -21,8 +21,8 @@ if __name__ == "__main__":
     if(debug == 1):
         print("packet mode search  : version 0.1")
 
-    ip_addr  = "192.168.159.150"
-    ip_cma   = "192.168.159.151"
+    ip_addr  = "146.18.96.16"
+    ip_cma   = "146.18.96.25"
     user     = "roapi"
     password = "1qazxsw2"
 
@@ -40,20 +40,27 @@ if __name__ == "__main__":
 
     object_dic = {}
 
-    #packet_mode_json = {
-    #    "name" : "HubLab Network",
-    #    "filter" : "src:146.18.2.137 AND dst:204.135.16.50 AND svc:443",
-    #    "filter-settings" : {
-    #        "search-mode" : "packet"
-    #    }
-    #}
     packet_mode_json = {
-        "name" : "services-zmd Security",
+        "name" : "HubLab",
         "filter" : "src:146.18.2.137 AND dst:204.135.16.50 AND svc:443",
         "filter-settings" : {
             "search-mode" : "packet"
         }
     }
+    #packet_mode_json = {
+    #    "name" : "CoLo-West-CommonCompute Network",
+    #    "filter" : "src:10.230.144.5 AND dst:10.230.38.135 AND svc:123",
+    #    "filter-settings" : {
+    #        "search-mode" : "packet"
+    #    }
+    #}
+    #packet_mode_json = {
+    #    "name" : "services-zmd Security",
+    #    "filter" : "src:146.18.2.137 AND dst:204.135.16.50 AND svc:443",
+    #    "filter-settings" : {
+    #        "search-mode" : "packet"
+    #    }
+    #}
     print(packet_mode_json)
 
     packet_result = apifunctions.api_call(ip_addr, "show-access-rulebase", packet_mode_json,sid)
