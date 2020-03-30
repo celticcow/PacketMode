@@ -92,6 +92,7 @@ def get_rules(ip_addr, search_json, sid):
                     try:
                         print(packet_result['rulebase'][i]['inline-layer'])
                         print("Inline above yo")
+                        ## check more
                     except:
                         pass
                 #global = yes
