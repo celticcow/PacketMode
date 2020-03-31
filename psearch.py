@@ -119,6 +119,18 @@ def get_rules(ip_addr, search_json, sid):
                 print("Service:")
                 for x in packet_result['rulebase'][i]['service']:
                     print(object_dic[x])
+                try:
+                    #need test case
+                    print(packet_result['rulebase'][i]['inline-layer'])
+                    print("Inline opp")
+                    tmpjson = search_json
+                    del tmpjson['name']
+                    tmpjson.update({'uid' : packet_result['rulebase'][i]['inline-layer']})
+                    print(tmpjson)
+                    get_rules(ip_addr,tmpjson,sid)
+                    print("end inline opp")
+                except:
+                    pass
             if(depth == "access-section"):
                 #print(packet_result['rulebase'][i]['rulebase'][0]['inline-layer'])
                 print("rule number: " + str(packet_result['rulebase'][i]['rulebase'][0]['rule-number']))
@@ -131,6 +143,17 @@ def get_rules(ip_addr, search_json, sid):
                 print("Service:")
                 for x in packet_result['rulebase'][i]['rulebase'][0]['service']:
                     print(object_dic[x])
+                try:
+                    print(packet_result['rulebase'][i]['rulebase'][0]['inline-layer'])
+                    print("Inline opp")
+                    tmpjson = search_json
+                    del tmpjson['name']
+                    tmpjson.update({'uid' : packet_result['rulebase'][i]['rulebase'][0]['inline-layer']})
+                    print(tmpjson)
+                    get_rules(ip_addr,tmpjson,sid)
+                    print("end inline opp")
+                except:
+                    pass
             
             print("-------------------------------------------------------")
     else:
@@ -138,7 +161,7 @@ def get_rules(ip_addr, search_json, sid):
 
 if __name__ == "__main__":
     
-    debug = 1
+    debug = 0
 
     if(debug == 1):
         print("packet mode search  : version 0.1")
