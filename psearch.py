@@ -37,7 +37,7 @@ def get_policies(ip_addr,sid):
     return(policy_select)
 #end of get_policies
 
-def get_rules(ip_addr, search_json, sid):
+def get_rules(ip_addr, search_json, sid, inline=False):
     print("-=-=-= In get_rules() =-=-=-")
     object_dic   = {}
 
@@ -109,16 +109,37 @@ def get_rules(ip_addr, search_json, sid):
 
             ## need to figure out why extra index ?
             if(depth == "access-rule"):
-                print("rule number: " + str(packet_result['rulebase'][i]['rule-number']))
-                print("Source:")
+                if(inline == True):
+                    print("\trule number: " + str(packet_result['rulebase'][i]['rule-number']))
+                else:
+                    print("rule number: " + str(packet_result['rulebase'][i]['rule-number']))
+                if(inline == True):
+                    print("\tSource:")
+                else:
+                    print("Source:")
                 for x in packet_result['rulebase'][i]['source']:
-                    print(object_dic[x])
-                print("Destination:")
+                    if(inline == True):
+                        print("\t" + object_dic[x])
+                    else:
+                        print(object_dic[x])
+                if(inline == True):
+                    print("\tDestination:")
+                else:
+                    print("Destination:")
                 for x in packet_result['rulebase'][i]['destination']:
-                    print(object_dic[x])
-                print("Service:")
+                    if(inline == True):
+                        print("\t" + object_dic[x])
+                    else:
+                        print(object_dic[x])
+                if(inline == True):
+                    print("\tService:")
+                else:
+                    print("Service:")
                 for x in packet_result['rulebase'][i]['service']:
-                    print(object_dic[x])
+                    if(inline == True):
+                        print("\t" + object_dic[x])
+                    else:
+                        print(object_dic[x])
                 try:
                     #need test case
                     print(packet_result['rulebase'][i]['inline-layer'])
@@ -127,31 +148,52 @@ def get_rules(ip_addr, search_json, sid):
                     del tmpjson['name']
                     tmpjson.update({'uid' : packet_result['rulebase'][i]['inline-layer']})
                     print(tmpjson)
-                    get_rules(ip_addr,tmpjson,sid)
+                    get_rules(ip_addr,tmpjson,sid,True)
                     print("end inline opp")
                 except:
                     pass
             if(depth == "access-section"):
                 #print(packet_result['rulebase'][i]['rulebase'][0]['inline-layer'])
-                print("rule number: " + str(packet_result['rulebase'][i]['rulebase'][0]['rule-number']))
-                print("Source:")
+                if(inline == True):
+                    print("\trule number: " + str(packet_result['rulebase'][i]['rulebase'][0]['rule-number']))
+                else:
+                    print("rule number: " + str(packet_result['rulebase'][i]['rulebase'][0]['rule-number']))
+                if(inline == True):
+                    print("\tSource:")
+                else:
+                    print("Source:")
                 for x in packet_result['rulebase'][i]['rulebase'][0]['source']:
-                    print(object_dic[x])
-                print("Destination:")
+                    if(inline == True):
+                        print("\t" + object_dic[x])
+                    else:
+                        print(object_dic[x])
+                if(inline == True):
+                    print("\tDestination:")
+                else:
+                    print("Destination:")
                 for x in packet_result['rulebase'][i]['rulebase'][0]['destination']:
-                    print(object_dic[x])
-                print("Service:")
+                    if(inline == True):
+                        print("\t" + object_dic[x])
+                    else:
+                        print(object_dic[x])
+                if(inline == True):
+                    print("\tService:")
+                else:
+                    print("Service:")
                 for x in packet_result['rulebase'][i]['rulebase'][0]['service']:
-                    print(object_dic[x])
+                    if(inline == True):
+                        print("\t" + object_dic[x])
+                    else:
+                        print(object_dic[x])
                 try:
-                    print(packet_result['rulebase'][i]['rulebase'][0]['inline-layer'])
-                    print("Inline opp")
+                    #print(packet_result['rulebase'][i]['rulebase'][0]['inline-layer'])
+                    print("Start Inline Rule")
                     tmpjson = search_json
                     del tmpjson['name']
                     tmpjson.update({'uid' : packet_result['rulebase'][i]['rulebase'][0]['inline-layer']})
                     print(tmpjson)
-                    get_rules(ip_addr,tmpjson,sid)
-                    print("end inline opp")
+                    get_rules(ip_addr,tmpjson,sid,True)
+                    print("End Inline Rule")
                 except:
                     pass
             
