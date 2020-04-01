@@ -1,0 +1,41 @@
+"""
+        length_of_rulebase = len(packet_result['rulebase'][outer_index]['rulebase'])
+        print("going into loop")
+        while(i < total):
+            #loop through all the results
+            print("current val of i " + str(i))
+
+            for rule in range(length_of_rulebase):
+                print(packet_result['rulebase'][outer_index]['rulebase'][rule]['rule-number'])
+                print(packet_result['rulebase'][outer_index]['rulebase'][rule]['source'])
+                print(packet_result['rulebase'][outer_index]['rulebase'][rule]['destination'])
+                print(packet_result['rulebase'][outer_index]['rulebase'][rule]['service'])
+                print("------------------------------------------------------------------")
+                i = i + 1
+            #i = i + (length_of_rulebase - 1)
+
+            outer_index = outer_index +  1
+            if(i < total):
+                length_of_rulebase = len(packet_result['rulebase'][outer_index]['rulebase'])
+        print("out of loop") 
+        #if(length_of_rulebase == total):
+            # all matches in same section
+        #    pass
+        #else:
+        """
+
+        """
+        len1 = len(packet_result['rulebase'][0])
+        print("Length of result[rulebase][0] " + str(len1))
+        len2 = len(packet_result['rulebase'][0]['rulebase'])
+        print("Length of result[rulebase][0][rulebase] " + str(len2))
+        len3 = len(packet_result['rulebase'][1]['rulebase'])
+        print("Length of result[rulebase][1][rulebase] " + str(len3))
+
+        for rule in range(len2):
+            print(packet_result['rulebase'][0]['rulebase'][rule]['rule-number'])
+        for rule in range(len3):
+            print(packet_result['rulebase'][1]['rulebase'][rule]['rule-number'])
+        """
+
+outer loop indexing to go through the rule sections

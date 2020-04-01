@@ -37,6 +37,111 @@ def get_policies(ip_addr,sid):
     return(policy_select)
 #end of get_policies
 
+def get_object_dictionary(result_json):
+    print("In Function get_object_dictionary() ")
+    # Object Dictionary Start
+    odebug = 0
+    object_dic = {}
+
+    if(odebug == 1):
+        print(json.dumps(result_json))
+        print("******* OBJ DIC *******")
+        print(result_json['objects-dictionary'])
+
+    objdic_size = len(result_json['objects-dictionary'])
+    #print(objdic_size)
+    for j in range(objdic_size):
+        if(odebug == 1):
+            print(result_json['objects-dictionary'][j]['name'])
+            print(result_json['objects-dictionary'][j]['uid'])
+        object_dic[result_json['objects-dictionary'][j]['uid']] = result_json['objects-dictionary'][j]['name']
+    if(odebug == 1):
+        print("******* OBJ DIC *******")
+        print(object_dic)
+        print("*************************************************")
+    #Object Dictionalry End
+    return(object_dic)
+#end of get_object_dictionary
+
+
+def parse_access_rule(result_json, inline=False):
+    print("In Function parse_acess_rule () ")
+
+def parse_access_section(result_json, inline=False):
+    print("In Function parse_access_section() ")
+
+    total = result_json['total'] ## total number we need to extract
+    outer_index = 0  #track 'rulebase'[outer_index] to keep up with section
+    i = 0  # while loop indexer 
+
+    object_d = get_object_dictionary(result_json)
+
+    length_of_rulebase = len(result_json['rulebase'][outer_index]['rulebase'])
+    print("going into loop")
+
+    while(i < total):
+        #loop through all the results
+
+        for rule in range(length_of_rulebase):
+            print("Rule Number : " + str(result_json['rulebase'][outer_index]['rulebase'][rule]['rule-number']))
+            print("Sources :")
+            for x in result_json['rulebase'][outer_index]['rulebase'][rule]['source']:
+                if(inline == True):
+                    print("\t" + object_d[x])
+                else:
+                    print(object_d[x])
+            #print(result_json['rulebase'][outer_index]['rulebase'][rule]['source'])
+            print("Destination :")
+            for x in result_json['rulebase'][outer_index]['rulebase'][rule]['destination']:
+                if(inline == True):
+                    print("\t" + object_d[x])
+                else:
+                    print(object_d[x])
+            #print(result_json['rulebase'][outer_index]['rulebase'][rule]['destination'])
+            print("Services :")
+            for x in result_json['rulebase'][outer_index]['rulebase'][rule]['service']:
+                if(inline == True):
+                    print("\t" + object_d[x])
+                else:
+                    print(object_d[x])
+            #print(result_json['rulebase'][outer_index]['rulebase'][rule]['service'])
+            print("------------------------------------------------------------------")
+            i = i + 1
+            
+        outer_index = outer_index +  1
+        if(i < total):
+            length_of_rulebase = len(result_json['rulebase'][outer_index]['rulebase'])
+    print("out of loop") 
+#end of function
+
+def get_rulebase(ip_addr, search_json, sid, inline=False):
+    packet_result = apifunctions.api_call(ip_addr, "show-access-rulebase", search_json, sid)
+
+    total = packet_result['total'] ## total number we need to extract
+
+    if(total >= 1):
+        print("Start of Get_Rulebase")
+        print("Result of Total")
+        print(total)
+
+        print(packet_result['rulebase'][0]['type']) #access-section or access-rule
+
+        if(packet_result['rulebase'][0]['type'] == "access-section"):
+            parse_access_section(packet_result,False)
+        
+        if(packet_result['rulebase'][0]['type'] == "access-rule"):
+            parse_access_rule(packet_result,False)
+
+    else:
+        print("no rules found")
+#end of get_rulebase()
+
+"""
+major bugs with access-section
+code ugly and hard to read and track too
+
+split into different functions above
+"""
 def get_rules(ip_addr, search_json, sid, inline=False):
     print("-=-=-= In get_rules() =-=-=-")
     object_dic   = {}
@@ -54,6 +159,7 @@ def get_rules(ip_addr, search_json, sid, inline=False):
             print(depth)
             print("_________________________")
 
+        # Object Dictionary Start
         if(debug == 1):
             print(json.dumps(packet_result))
 
@@ -73,12 +179,24 @@ def get_rules(ip_addr, search_json, sid, inline=False):
             print(object_dic)
 
             print("*************************************************")
+        #Object Dictionalry End
+
+        if(depth == "access-section"):
+            print("&&&&& Debug of Access Section &&&&&")
+            print(packet_result['rulebase'])
+            seclen = len(packet_result['rulebase'])
+            for k in range(seclen):
+                print(k)
+                print(packet_result['rulebase'][k])
+            print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
 
         for i in range(packet_result['total']):
             if(debug == 1):
                 print(packet_result['total'])
             if(debug == 1):
                 #print(packet_result['rulebase'][i]['rulebase'])
+                print(i)
+                #print(packet_result['rulebase'][i]['rulebase'][0]['rule-number'])
                 print("^^^^^^^^^")
             #print("rule number: " + str(packet_result['rulebase'][i]['rulebase'][0]['rule-number']))
             
@@ -97,7 +215,22 @@ def get_rules(ip_addr, search_json, sid, inline=False):
                         pass
                 #global = yes
                 if(depth == "access-section"):
-                    print("rule number: " + str(packet_result['rulebase'][i]['rulebase'][0]['rule-number']))
+                    print("=-=-=-=-=-=-=-=-=")
+                    try:
+                        print("rule number: " + str(packet_result['rulebase'][i]['rulebase'][0]['rule-number']))
+                        tmplen = len(packet_result['rulebase'][i]['rulebase'])
+                        print("Lenght of rulebase i rulebase " + str(tmplen))
+                        print("dump of rulebase i rulebase 0")
+                        print(packet_result['rulebase'][i]['rulebase'][0])
+                    except:
+                        print("Except")
+                        print(i)
+                        tmplen = len(packet_result['rulebase'])
+                        print("length of rulebase " + str(tmplen))
+                        print(packet_result['rulebase'])
+                        #print(packet_result['rulebase'][0]['rulebase'][0]['rule-number'])
+                        #print(packet_result['rulebase'][1]['rulebase'][0]['rule-number'])
+                        print(" end of except ")
                     print(packet_result['rulebase'][i]['rulebase'][0]['source'])
                     print(packet_result['rulebase'][i]['rulebase'][0]['destination'])
                     print(packet_result['rulebase'][i]['rulebase'][0]['service'])
@@ -186,7 +319,7 @@ def get_rules(ip_addr, search_json, sid, inline=False):
                     else:
                         print(object_dic[x])
                 try:
-                    #print(packet_result['rulebase'][i]['rulebase'][0]['inline-layer'])
+                    print(packet_result['rulebase'][i]['rulebase'][0]['inline-layer'])
                     print("Start Inline Rule")
                     tmpjson = search_json
                     del tmpjson['name']
@@ -203,10 +336,10 @@ def get_rules(ip_addr, search_json, sid, inline=False):
 
 if __name__ == "__main__":
     
-    debug = 0
+    debug = 1
 
     if(debug == 1):
-        print("packet mode search  : version 0.1")
+        print("packet mode search  : version 0.3")
 
     parser = argparse.ArgumentParser(description='Policy Extractor')
     parser.add_argument("-m", required=True, help="MDS IP")
@@ -231,7 +364,15 @@ if __name__ == "__main__":
     and does not equil AND   the all cap's matter a LOT
     """
 
-    object_dic   = {}
+    #packet_mode_json = {
+    #    "name" : "SearchTest Network",
+    #    "filter" : "src:146.18.2.137 AND dst:10.250.1.1 AND svc:443",
+    #    "filter-settings" : {
+    #        "search-mode" : "packet"
+    #    }
+    #}
+    
+    #object_dic   = {}
     policies_dic = {}
 
     policies_dic = get_policies(ip_addr,sid)
@@ -243,7 +384,7 @@ if __name__ == "__main__":
 
     for x in policies_dic:
         print(str(x) + " : " + policies_dic[x])
-
+    
     policy     = input("Select a number above : ")
     source_ip  = input("Enter Source IP : ")
     dest_ip    = input("Enter Dest IP : ")
@@ -255,11 +396,13 @@ if __name__ == "__main__":
             "search-mode" : "packet"
         }
     }
-   
+    
     if(debug == 1):
         print(packet_mode_json)
 
-    get_rules(ip_addr, packet_mode_json, sid)
+    get_rulebase(ip_addr, packet_mode_json, sid)
+
+    #get_rules(ip_addr, packet_mode_json, sid)
     
     # don't need to publish
     time.sleep(20)
