@@ -37,6 +37,10 @@ def get_policies(ip_addr,sid):
     return(policy_select)
 #end of get_policies
 
+"""
+takes json from show access-rulebase and extracts the object dictionary
+and returns this as a python dic 
+"""
 def get_object_dictionary(result_json):
     print("In Function get_object_dictionary() ")
     # Object Dictionary Start
@@ -63,10 +67,17 @@ def get_object_dictionary(result_json):
     return(object_dic)
 #end of get_object_dictionary
 
-
+"""
+place holder for now
+"""
 def parse_access_rule(result_json, inline=False):
     print("In Function parse_acess_rule () ")
 
+"""
+parse an access section 
+tested with regular
+todo : inline layer testing
+"""
 def parse_access_section(result_json, inline=False):
     print("In Function parse_access_section() ")
 
@@ -105,6 +116,11 @@ def parse_access_section(result_json, inline=False):
                 else:
                     print(object_d[x])
             #print(result_json['rulebase'][outer_index]['rulebase'][rule]['service'])
+            try:
+                print(result_json['rulebase'][outer_index]['rulebase'][rule]['inline-layer'])
+                print("@@@@@@@@@@@@@@@@ Start Inline Rule @@@@@@@@@@@@@@@@")
+            except:
+                pass
             print("------------------------------------------------------------------")
             i = i + 1
             
