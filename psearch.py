@@ -68,10 +68,52 @@ def get_object_dictionary(result_json):
 #end of get_object_dictionary
 
 """
-place holder for now
+parse an access rule (not in a section)
+todo : inline testing
 """
 def parse_access_rule(result_json, inline=False):
     print("In Function parse_acess_rule () ")
+
+    total = result_json['total'] ## total number of rules to extract
+    ## don't need to track outer looping since depth is 1
+
+    object_d = get_object_dictionary(result_json)
+
+    for i in range(total):
+        print("Rule Number : " + str(result_json['rulebase'][i]['rule-number']))
+        print("Sources :")
+        for x in result_json['rulebase'][i]['source']:
+            if(inline == True):
+                print("\t" + object_d[x])
+            else:
+                print(object_d[x])
+        #print(result_json['rulebase'][i]['source'])
+        print("Destinations :")
+        for x in result_json['rulebase'][i]['destination']:
+            if(inline == True):
+                print("\t" + object_d[x])
+            else:
+                print(object_d[x])
+        #print(result_json['rulebase'][i]['destination'])
+        print("Services :")
+        for x in result_json['rulebase'][i]['service']:
+            if(inline == True):
+                print("\t" + object_d[x])
+            else:
+                print(object_d[x])
+        #print(result_json['rulebase'][i]['service'])
+        try:
+            #not a big fan of the var scope
+            inline_uid = result_json['rulebase'][i]['inline-layer'] 
+            print(result_json['rulebase'][i]['inline-layer'])
+            print("@@@@@@@@@@@@@@@@ Start Inline Rule @@@@@@@@@@@@@@@@")
+            print("@@@@@@@@@@@@@@@@  End Inline Rule  @@@@@@@@@@@@@@@@")
+        except:
+            pass
+
+        print("------------------------------------------------------------------")
+    #end of for loop
+#end of parse_access_rule()
 
 """
 parse an access section 
@@ -94,22 +136,34 @@ def parse_access_section(result_json, inline=False):
         #loop through all the results
 
         for rule in range(length_of_rulebase):
-            print("Rule Number : " + str(result_json['rulebase'][outer_index]['rulebase'][rule]['rule-number']))
-            print("Sources :")
+            if(inline == True):
+                print("\tRule Number : " + str(result_json['rulebase'][outer_index]['rulebase'][rule]['rule-number']))
+            else:
+                print("Rule Number : " + str(result_json['rulebase'][outer_index]['rulebase'][rule]['rule-number']))
+            if(inline == True):
+                print("\tSources :")
+            else:
+                print("Sources :")
             for x in result_json['rulebase'][outer_index]['rulebase'][rule]['source']:
                 if(inline == True):
                     print("\t" + object_d[x])
                 else:
                     print(object_d[x])
             #print(result_json['rulebase'][outer_index]['rulebase'][rule]['source'])
-            print("Destination :")
+            if(inline == True):
+                print("\tDestinations :")
+            else:
+                print("Destinations :")
             for x in result_json['rulebase'][outer_index]['rulebase'][rule]['destination']:
                 if(inline == True):
                     print("\t" + object_d[x])
                 else:
                     print(object_d[x])
             #print(result_json['rulebase'][outer_index]['rulebase'][rule]['destination'])
-            print("Services :")
+            if(inline == True):
+                print("\tServices :")
+            else:
+                print("Services :")
             for x in result_json['rulebase'][outer_index]['rulebase'][rule]['service']:
                 if(inline == True):
                     print("\t" + object_d[x])
@@ -117,8 +171,16 @@ def parse_access_section(result_json, inline=False):
                     print(object_d[x])
             #print(result_json['rulebase'][outer_index]['rulebase'][rule]['service'])
             try:
+                #not a big fan of the var scope
+                inline_uid = result_json['rulebase'][outer_index]['rulebase'][rule]['inline-layer'] 
                 print(result_json['rulebase'][outer_index]['rulebase'][rule]['inline-layer'])
                 print("@@@@@@@@@@@@@@@@ Start Inline Rule @@@@@@@@@@@@@@@@")
+                tmp_json = packet_mode_json
+                del tmp_json['name']
+                tmp_json.update({'uid' : inline_uid})
+                print(tmp_json)
+                get_rulebase(ip_addr, tmp_json, sid, True)
+                print("@@@@@@@@@@@@@@@@  End Inline Rule  @@@@@@@@@@@@@@@@")
             except:
                 pass
             print("------------------------------------------------------------------")
@@ -143,10 +205,10 @@ def get_rulebase(ip_addr, search_json, sid, inline=False):
         print(packet_result['rulebase'][0]['type']) #access-section or access-rule
 
         if(packet_result['rulebase'][0]['type'] == "access-section"):
-            parse_access_section(packet_result,False)
+            parse_access_section(packet_result,inline)
         
         if(packet_result['rulebase'][0]['type'] == "access-rule"):
-            parse_access_rule(packet_result,False)
+            parse_access_rule(packet_result,inline)
 
     else:
         print("no rules found")
