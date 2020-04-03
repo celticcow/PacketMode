@@ -71,7 +71,7 @@ def get_object_dictionary(result_json):
 parse an access rule (not in a section)
 todo : inline testing
 """
-def parse_access_rule(result_json, inline=False):
+def parse_access_rule(result_json, packet_mode_json, ip_addr,sid, inline=False):
     print("In Function parse_acess_rule () ")
 
     total = result_json['total'] ## total number of rules to extract
@@ -120,7 +120,7 @@ parse an access section
 tested with regular
 todo : inline layer testing
 """
-def parse_access_section(result_json, inline=False):
+def parse_access_section(result_json, packet_mode_json, ip_addr, sid, inline=False):
     print("In Function parse_access_section() ")
 
     total = result_json['total'] ## total number we need to extract
@@ -193,10 +193,11 @@ def parse_access_section(result_json, inline=False):
 #end of function
 
 def get_rulebase(ip_addr, search_json, sid, inline=False):
+    print("In Function get_rulebase ")
     packet_result = apifunctions.api_call(ip_addr, "show-access-rulebase", search_json, sid)
 
     total = packet_result['total'] ## total number we need to extract
-
+    print("Total to search for : " + str(total))
     if(total >= 1):
         print("Start of Get_Rulebase")
         print("Result of Total")
@@ -205,10 +206,10 @@ def get_rulebase(ip_addr, search_json, sid, inline=False):
         print(packet_result['rulebase'][0]['type']) #access-section or access-rule
 
         if(packet_result['rulebase'][0]['type'] == "access-section"):
-            parse_access_section(packet_result,inline)
+            parse_access_section(packet_result,search_json,ip_addr,sid,inline)
         
         if(packet_result['rulebase'][0]['type'] == "access-rule"):
-            parse_access_rule(packet_result,inline)
+            parse_access_rule(packet_result,search_json,ip_addr,sid,inline)
 
     else:
         print("no rules found")
@@ -219,7 +220,7 @@ major bugs with access-section
 code ugly and hard to read and track too
 
 split into different functions above
-"""
+
 def get_rules(ip_addr, search_json, sid, inline=False):
     print("-=-=-= In get_rules() =-=-=-")
     object_dic   = {}
@@ -411,8 +412,8 @@ def get_rules(ip_addr, search_json, sid, inline=False):
             print("-------------------------------------------------------")
     else:
         print("No rule found")
-
-if __name__ == "__main__":
+"""
+def main():
     
     debug = 1
 
@@ -490,3 +491,6 @@ if __name__ == "__main__":
     if(debug == 1):
         print(logout_result)
 #endof main()
+
+if __name__ == "__main__":
+    main()
