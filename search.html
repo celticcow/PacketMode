@@ -4,7 +4,7 @@
     </head>
     Select CMA<br>
     <form method="get" action="../cgi-bin/webSearch.py" id="form1">
-    <select id="cma" name="cma">
+    <select id="cma" name="cma" onchange="check()">
         <option value='--All--'>--All--</option>
         <option value='192.168.159.151'>ADM1 ZMD Main</option>
         <option value='192.168.159.155'>ADM5 Dev</option>
@@ -12,7 +12,7 @@
         <option value='192.168.159.167'>ADM17 Cloud Gateway</option>
     <select>
     <br>ADM1<br>
-    <select id="adm1policy" name="adm1policy">
+    <select id="adm1policy" name="adm1policy" disabled=true>
         <option data-group='all' value='0'>--Select--</option>
         <option data-group='CoLo-West-CommonCompute' value='CoLo-West-CommonCompute Network'>CoLo-West-CommonCompute</option>
         <option data-group='CyberVault' value='CyberVault Network'>CyberVault</option>
@@ -24,7 +24,7 @@
         <option data-group='WTCQ_Cluster value='WTCQ_Cluster Security'>WTCQ_Cluster</option>
     </select>
     <br>ADM5<br>
-    <select id="adm5policy" name="adm5policy">
+    <select id="adm5policy" name="adm5policy" disabled=true>
         <option data-group='all' value='0'>--Select--</option>
         <option data-group='CoLo-UTE-AZ' value='CoLo-UTE-AZ Network'>Colo-UTE-AZ</option>
         <option data-group='Dev-DMZ' value='Dev-DMZ Security'>Dev-DMZ</option>
@@ -34,16 +34,16 @@
         <option data-group='SBC' value='SBC Security'>SBC</option>
         <option data-group='SIP_Lab' value='SIP_Lab Security'>SIP_Lab</option>
         <option data-group='whqL-Policy' value='whqL-Policy Security'>whqL-Policy</option>
-    <select>
+    </select>
     <br>ADM11<br>
-    <select id="adm11policy" name="adm11policy">
+    <select id="adm11policy" name="adm11policy" disabled=true>
         <option data-group='all' value='0'>--Select--</option>
         <option data-group='Services-DMZ' value='Services-DMZ Security'>Services-DMZ</option>
         <option data-group='SoftwareDistro' value='SoftwareDistro Security'>SoftwareDistro</option>
         <option data-group='WTCR_Cluster' value='WTCR_Cluster Security'>WTCR_Cluster</option>
     </select>
     <br>ADM17<br>
-    <select id="adm17policy" name="adm17policy">
+    <select id="adm17policy" name="adm17policy" disabled=true>
         <option data-group='all' value='0'>--Select--</option>
         <option data-group='Cloud_Gateway' value='Cloud_Gateway Security'>Cloud_Gateway</option>
         <option data-group='Acquisition' value='Acquisition Security'>Acquisition</option>
@@ -58,6 +58,47 @@
         <input type="submit" value="submit" name="submit"><br>
 
     </form>
+
+    <script>
+        function check()
+        {
+            switch(document.getElementById('cma').value)
+            {
+                case '192.168.159.151': 
+                    document.getElementById('adm1policy').disabled=false;
+                    document.getElementById('adm5policy').disabled=true;
+                    document.getElementById('adm11policy').disabled=true;
+                    document.getElementById('adm17policy').disabled=true;
+                    break;
+                case '192.168.159.155': 
+                    document.getElementById('adm1policy').disabled=true;
+                    document.getElementById('adm5policy').disabled=false;
+                    document.getElementById('adm11policy').disabled=true;
+                    document.getElementById('adm17policy').disabled=true;
+                    break;
+                case '192.168.159.161': 
+                    document.getElementById('adm1policy').disabled=true;
+                    document.getElementById('adm5policy').disabled=true;
+                    document.getElementById('adm11policy').disabled=false;
+                    document.getElementById('adm17policy').disabled=true;
+                    break;
+                case '192.168.159.167': 
+                    document.getElementById('adm1policy').disabled=true;
+                    document.getElementById('adm5policy').disabled=true;
+                    document.getElementById('adm11policy').disabled=true;
+                    document.getElementById('adm17policy').disabled=false;
+                    break;
+                default: 
+                    document.getElementById('adm1policy').disabled=true;
+                    document.getElementById('adm5policy').disabled=true;
+                    document.getElementById('adm11policy').disabled=true;
+                    document.getElementById('adm17policy').disabled=true;
+            }
+    
+        }
+    </script>
+
+
     </body>
 </html>
 

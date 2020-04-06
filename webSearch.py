@@ -86,8 +86,8 @@ def parse_access_rule(result_json, packet_mode_json, ip_addr,sid, inline=False):
         print("Sources :<br>")
         for x in result_json['rulebase'][i]['source']:
             if(inline == True):
-                print("\t" + object_d[x])
-                print("<br>")
+                print("<blockquote>" + object_d[x] + "</blockquote>")
+                #print("<br>")
             else:
                 print(object_d[x])
                 print("<br>")
@@ -95,8 +95,8 @@ def parse_access_rule(result_json, packet_mode_json, ip_addr,sid, inline=False):
         print("Destinations :<br>")
         for x in result_json['rulebase'][i]['destination']:
             if(inline == True):
-                print("\t" + object_d[x])
-                print("<br>")
+                print("<blockquote>" + object_d[x] + "</blockquote>")
+                #print("<br>")
             else:
                 print(object_d[x])
                 print("<br>")
@@ -104,8 +104,8 @@ def parse_access_rule(result_json, packet_mode_json, ip_addr,sid, inline=False):
         print("Services :<br>")
         for x in result_json['rulebase'][i]['service']:
             if(inline == True):
-                print("\t" + object_d[x])
-                print("<br>")
+                print("<blockquote>" + object_d[x] + "</blockquote>")
+                #print("<br>")
             else:
                 print(object_d[x])
                 print("<br>")
@@ -146,43 +146,43 @@ def parse_access_section(result_json, packet_mode_json, ip_addr, sid, inline=Fal
 
         for rule in range(length_of_rulebase):
             if(inline == True):
-                print("\tRule Number : " + str(result_json['rulebase'][outer_index]['rulebase'][rule]['rule-number']))
-                print("<br>")
+                print("<blockquote>Rule Number : " + str(result_json['rulebase'][outer_index]['rulebase'][rule]['rule-number']) + "</blockquote>")
+                #print("<br>")
             else:
                 print("Rule Number : " + str(result_json['rulebase'][outer_index]['rulebase'][rule]['rule-number']))
                 print("<br>")
             if(inline == True):
-                print("\tSources :<br>")
+                print("<blockquote>Sources : </blockquote>")
             else:
                 print("Sources :<br>")
             for x in result_json['rulebase'][outer_index]['rulebase'][rule]['source']:
                 if(inline == True):
-                    print("\t" + object_d[x])
-                    print("<br>")
+                    print("<blockquote>" + object_d[x] + "</blockquote>")
+                    #print("<br>")
                 else:
                     print(object_d[x])
                     print("<br>")
             #print(result_json['rulebase'][outer_index]['rulebase'][rule]['source'])
             if(inline == True):
-                print("\tDestinations :<br>")
+                print("<blockquote>Destinations :</blockquote>")
             else:
                 print("Destinations :<br>")
             for x in result_json['rulebase'][outer_index]['rulebase'][rule]['destination']:
                 if(inline == True):
-                    print("\t" + object_d[x])
-                    print("<br>")
+                    print("<blockquote>" + object_d[x] + "</blockquote>")
+                    #print("<br>")
                 else:
                     print(object_d[x])
-                    print("<br>")
+                    #print("<br>")
             #print(result_json['rulebase'][outer_index]['rulebase'][rule]['destination'])
             if(inline == True):
-                print("\tServices :<br>")
+                print("<blockquote>Services :</blockquote>")
             else:
                 print("Services :<br>")
             for x in result_json['rulebase'][outer_index]['rulebase'][rule]['service']:
                 if(inline == True):
-                    print("\t" + object_d[x])
-                    print("<br>")
+                    print("<blockquote>" + object_d[x] + "</blockquote>")
+                    #print("<br>")
                 else:
                     print(object_d[x])
                     print("<br>")
