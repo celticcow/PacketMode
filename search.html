@@ -1,0 +1,63 @@
+<html>
+    <head>
+        <title>Web Search</title>
+    </head>
+    Select CMA<br>
+    <form method="get" action="../cgi-bin/webSearch.py" id="form1">
+    <select id="cma" name="cma">
+        <option value='--All--'>--All--</option>
+        <option value='192.168.159.151'>ADM1 ZMD Main</option>
+        <option value='192.168.159.155'>ADM5 Dev</option>
+        <option value='192.168.159.161'>ADM11 DMZ</option>
+        <option value='192.168.159.167'>ADM17 Cloud Gateway</option>
+    <select>
+    <br>ADM1<br>
+    <select id="adm1policy" name="adm1policy">
+        <option data-group='all' value='0'>--Select--</option>
+        <option data-group='CoLo-West-CommonCompute' value='CoLo-West-CommonCompute Network'>CoLo-West-CommonCompute</option>
+        <option data-group='CyberVault' value='CyberVault Network'>CyberVault</option>
+        <option data-group='DataCenterSeg' value='DataCenterSeg Network'>DataCenterSeg</option>
+        <option data-group='CTC_ZMD' value='CTC_ZMD Security'>CTC_ZMD</option>
+        <option data-group='PCI_Clusters' value='PCI_Clusters Security'>PCI_Clustersy</option>
+        <option data-group='services-zmd' value='services-zmd Security'>services-zmd</option>
+        <option data-group='WTC_ZMD' value='WTC_ZMD Security'>WTC_ZMD</option>
+        <option data-group='WTCQ_Cluster value='WTCQ_Cluster Security'>WTCQ_Cluster</option>
+    </select>
+    <br>ADM5<br>
+    <select id="adm5policy" name="adm5policy">
+        <option data-group='all' value='0'>--Select--</option>
+        <option data-group='CoLo-UTE-AZ' value='CoLo-UTE-AZ Network'>Colo-UTE-AZ</option>
+        <option data-group='Dev-DMZ' value='Dev-DMZ Security'>Dev-DMZ</option>
+        <option data-group='Dev-ZMD' value='Dev-ZMD Security'>Dev-ZMD</option>
+        <option data-group='DevTest_Labs' value='DevTest_Labs Security'>DevTest_Labs</option>
+        <option data-group='FXCC_DevLabs' value='FXCC_DevLabs Security'>FXCC_DevLabs</option>
+        <option data-group='SBC' value='SBC Security'>SBC</option>
+        <option data-group='SIP_Lab' value='SIP_Lab Security'>SIP_Lab</option>
+        <option data-group='whqL-Policy' value='whqL-Policy Security'>whqL-Policy</option>
+    <select>
+    <br>ADM11<br>
+    <select id="adm11policy" name="adm11policy">
+        <option data-group='all' value='0'>--Select--</option>
+        <option data-group='Services-DMZ' value='Services-DMZ Security'>Services-DMZ</option>
+        <option data-group='SoftwareDistro' value='SoftwareDistro Security'>SoftwareDistro</option>
+        <option data-group='WTCR_Cluster' value='WTCR_Cluster Security'>WTCR_Cluster</option>
+    </select>
+    <br>ADM17<br>
+    <select id="adm17policy" name="adm17policy">
+        <option data-group='all' value='0'>--Select--</option>
+        <option data-group='Cloud_Gateway' value='Cloud_Gateway Security'>Cloud_Gateway</option>
+        <option data-group='Acquisition' value='Acquisition Security'>Acquisition</option>
+    </select>
+    <br>Enter Search Values<br>
+    
+        <br><br>
+        Source IP : <input type="text" size="15" maxlength="15" name="sourceip">:<br>
+        Destination IP : <input type="text" size="15" maxlength="15" name="destip">:<br>
+        Service : <input type="text" size="5" maxlength="5" name="service">:<br>
+        <br>
+        <input type="submit" value="submit" name="submit"><br>
+
+    </form>
+    </body>
+</html>
+
