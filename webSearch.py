@@ -248,10 +248,24 @@ def main():
         policy = form.getvalue('adm5policy')
     elif(cma == "192.168.159.151"):
         policy = form.getvalue('adm1policy')
+    elif(cma == "192.168.159.156"):
+        policy = form.getvalue('adm6policy')
     elif(cma == "192.168.159.161"):
         policy = form.getvalue('adm11policy')
     elif(cma == "192.168.159.167"):
         policy = form.getvalue('adm17policy')
+    elif(cma == "192.168.159.158"):
+        policy = form.getvalue('adm8policy')
+    elif(cma == "192.168.159.160"):
+        policy = form.getvalue('adm10policy')
+    elif(cma == "192.168.159.162"):
+        policy = form.getvalue('adm12policy')
+    elif(cma == "192.168.159.163"):
+        policy = form.getvalue('adm13policy')
+    elif(cma == "192.168.159.164"):
+        policy = form.getvalue('adm14policy')
+    elif(cma == "192.168.159.169"):
+        policy = form.getvalue('adm19policy')
     else:
         policy = "none"
 

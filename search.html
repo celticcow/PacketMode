@@ -8,9 +8,17 @@
         <option value='--All--'>--All--</option>
         <option value='192.168.159.151'>ADM1 ZMD Main</option>
         <option value='192.168.159.155'>ADM5 Dev</option>
+        <option value='192.168.159.156'>ADM6 Freight</option>
+        <option value='192.168.159.158'>ADM8 WAN</option>
+        <option value='192.168.159.160'>ADM10 FXO</option>
         <option value='192.168.159.161'>ADM11 DMZ</option>
+        <option value='192.168.159.162'>ADM12 FXCC</option>
+        <option value='192.168.159.163'>ADM13 Trade</option>
+        <option value='192.168.159.164'>ADM14 Ground Hubs</option>
         <option value='192.168.159.167'>ADM17 Cloud Gateway</option>
-    <select>
+        <option value='192.168.159.169'>ADM19 Site-2-Site</option>      
+    </select>
+
     <br>ADM1<br>
     <select id="adm1policy" name="adm1policy" disabled=true>
         <option data-group='all' value='0'>--Select--</option>
@@ -35,6 +43,40 @@
         <option data-group='SIP_Lab' value='SIP_Lab Security'>SIP_Lab</option>
         <option data-group='whqL-Policy' value='whqL-Policy Security'>whqL-Policy</option>
     </select>
+    <br>ADM6<br>
+    <select id="adm6policy" name="adm6policy" disabled=true>
+        <option data-group='all' value='0'>--Select--</option>
+        <option data-group='Freight-DMZ' value='Freight-DMZ Security'>Freight-DMZ</option>
+        <option data-group='Freight-UTE' value='Freight-UTE Security'>Freight-UTE</option>
+        <option data-group='Freight-WTC-Mainframe' value='Freight-WTC-Mainframe Network'>Freight-WTC-Mainframe</option>
+        <option data-group='Freight-ZMD' value='Freight-ZMD Security'>Freight-ZMD</option>
+    </select>
+    <br>ADM8<br>
+    <select id="adm8policy" name="adm8policy" disabled=true>
+        <option data-group='all' value='0'>--Select--</option>
+        <option data-group='canada-vendor-lease' value='canada-vendor-lease Security'>canada-vendor-lease</option>
+        <option data-group='freight-edc-mainframe' value='freight-edc-mainframe Security'>freight-edc-mainframe</option>
+        <option data-group='FXE-Hubs' value='FXE-Hubs Security'>FXE-Hubs</option>
+        <option data-group='Acquisition' value='Acquisition Security'>Acquisition</option>
+        <option data-group='GOC' value='GOC Security'>GOC</option>
+        <option data-group='legacy-vpn' value='legacy-vpn Security'>legacy-vpn</option>
+        <option data-group='NASBar' value='NASBar Security'>NASBar</option>
+        <option data-group='PowerPad' value='PowerPad Security'>PowerPad</option>
+        <option data-group='SBC' value='SBC Security'>SBC</option>
+        <option data-group='SNG' value='SNG Security'>SNG</option>
+        <option data-group='VDI' value='VDI Security'>VDI</option>
+        <option data-group='Vendor_Lease' value='Vendor_Lease Security'>Vendor_Lease</option>
+    </select>
+    <br>ADM10<br>
+    <select id="adm10policy" name="adm10policy" disabled=true>
+        <option data-group='all' value='0'>--Select--</option>
+        <option data-group='CommercialPress' value='CommercialPress Security'>CommercialPress</option>
+        <option data-group='FXO-Dr' value='FXO-Dr Security'>FXO-Dr</option>
+        <option data-group='office-corp' value='office-corp Security'>office-corp</option>
+        <option data-group='office-dmz' value='office-dmz Security'>office-dmz</option>
+        <option data-group='office-g' value='office-g Security'>office-g</option>
+        <option data-group='office-zmd' value='office-zmd Security'>office-zmd</option>
+    </select>
     <br>ADM11<br>
     <select id="adm11policy" name="adm11policy" disabled=true>
         <option data-group='all' value='0'>--Select--</option>
@@ -42,11 +84,33 @@
         <option data-group='SoftwareDistro' value='SoftwareDistro Security'>SoftwareDistro</option>
         <option data-group='WTCR_Cluster' value='WTCR_Cluster Security'>WTCR_Cluster</option>
     </select>
+    <br>ADM12<br>
+    <select id="adm12policy" name="adm12policy" disabled=true>
+        <option data-group='all' value='0'>--Select--</option>
+        <option data-group='CustomCritical' value='CustomCritical Security'>CustomCritical</option>
+    </select>
+    <br>ADM13<br>
+    <select id="adm13policy" name="adm13policy" disabled=true>
+        <option data-group='all' value='0'>--Select--</option>
+        <option data-group='FTN-Mainframe' value='FTN-Mainframe Network'>FTN-Mainframe</option>
+        <option data-group='Trade_Simplified' value='Trade_Simplified Security'>Trade_Simplified</option>
+    </select>
+    <br>ADM14<br>
+    <select id="adm14policy" name="adm14policy" disabled=true>
+        <option data-group='all' value='0'>--Select--</option>
+        <option data-group='7VRF_FXG-Hub' value='7VRF_FXG-Hub Security'>7VRF_FXG-Hub</option>
+    </select>
     <br>ADM17<br>
     <select id="adm17policy" name="adm17policy" disabled=true>
         <option data-group='all' value='0'>--Select--</option>
         <option data-group='Cloud_Gateway' value='Cloud_Gateway Security'>Cloud_Gateway</option>
         <option data-group='Acquisition' value='Acquisition Security'>Acquisition</option>
+    </select>
+    <br>ADM19<br>
+    <select id="adm19policy" name="adm19policy" disabled=true>
+        <option data-group='all' value='0'>--Select--</option>
+        <option data-group='iWAN-Policy' value='iWAN-Policy Security'>iWAN-Policy</option>
+        <option data-group='wtc-s2s' value='wtc-s2s Security'>wtc-s2s</option>
     </select>
     <br>Enter Search Values<br>
     
@@ -67,32 +131,158 @@
                 case '192.168.159.151': 
                     document.getElementById('adm1policy').disabled=false;
                     document.getElementById('adm5policy').disabled=true;
+                    document.getElementById('adm6policy').disabled=true;
+                    document.getElementById('adm8policy').disabled=true;
+                    document.getElementById('adm10policy').disabled=true;
                     document.getElementById('adm11policy').disabled=true;
+                    document.getElementById('adm12policy').disabled=true;
+                    document.getElementById('adm13policy').disabled=true;
+                    document.getElementById('adm14policy').disabled=true;
                     document.getElementById('adm17policy').disabled=true;
+                    document.getElementById('adm19policy').disabled=true;
                     break;
                 case '192.168.159.155': 
                     document.getElementById('adm1policy').disabled=true;
                     document.getElementById('adm5policy').disabled=false;
+                    document.getElementById('adm6policy').disabled=true;
+                    document.getElementById('adm8policy').disabled=true;
+                    document.getElementById('adm10policy').disabled=true;
                     document.getElementById('adm11policy').disabled=true;
+                    document.getElementById('adm12policy').disabled=true;
+                    document.getElementById('adm13policy').disabled=true;
+                    document.getElementById('adm14policy').disabled=true;
                     document.getElementById('adm17policy').disabled=true;
+                    document.getElementById('adm19policy').disabled=true;
+                    break;
+                case '192.168.159.156':
+                    document.getElementById('adm1policy').disabled=true;
+                    document.getElementById('adm5policy').disabled=true;
+                    document.getElementById('adm6policy').disabled=false;
+                    document.getElementById('adm8policy').disabled=true;
+                    document.getElementById('adm10policy').disabled=true;
+                    document.getElementById('adm11policy').disabled=true;
+                    document.getElementById('adm12policy').disabled=true;
+                    document.getElementById('adm13policy').disabled=true;
+                    document.getElementById('adm14policy').disabled=true;
+                    document.getElementById('adm17policy').disabled=true;
+                    document.getElementById('adm19policy').disabled=true;
+                    break;
+                case '192.168.159.158':
+                    document.getElementById('adm1policy').disabled=true;
+                    document.getElementById('adm5policy').disabled=true;
+                    document.getElementById('adm6policy').disabled=true;
+                    document.getElementById('adm8policy').disabled=false;
+                    document.getElementById('adm10policy').disabled=true;
+                    document.getElementById('adm11policy').disabled=true;
+                    document.getElementById('adm12policy').disabled=true;
+                    document.getElementById('adm13policy').disabled=true;
+                    document.getElementById('adm14policy').disabled=true;
+                    document.getElementById('adm17policy').disabled=true;
+                    document.getElementById('adm19policy').disabled=true;
+                    break;
+                case '192.168.159.160':
+                    document.getElementById('adm1policy').disabled=true;
+                    document.getElementById('adm5policy').disabled=true;
+                    document.getElementById('adm6policy').disabled=true;
+                    document.getElementById('adm8policy').disabled=true;
+                    document.getElementById('adm10policy').disabled=false;
+                    document.getElementById('adm11policy').disabled=true;
+                    document.getElementById('adm12policy').disabled=true;
+                    document.getElementById('adm13policy').disabled=true;
+                    document.getElementById('adm14policy').disabled=true;
+                    document.getElementById('adm17policy').disabled=true;
+                    document.getElementById('adm19policy').disabled=true;
                     break;
                 case '192.168.159.161': 
                     document.getElementById('adm1policy').disabled=true;
                     document.getElementById('adm5policy').disabled=true;
+                    document.getElementById('adm6policy').disabled=true;
+                    document.getElementById('adm8policy').disabled=true;
+                    document.getElementById('adm10policy').disabled=true;
                     document.getElementById('adm11policy').disabled=false;
+                    document.getElementById('adm12policy').disabled=true;
+                    document.getElementById('adm13policy').disabled=true;
+                    document.getElementById('adm14policy').disabled=true;
                     document.getElementById('adm17policy').disabled=true;
+                    document.getElementById('adm19policy').disabled=true;
+                    break;
+                case '192.168.159.162': 
+                    document.getElementById('adm1policy').disabled=true;
+                    document.getElementById('adm5policy').disabled=true;
+                    document.getElementById('adm6policy').disabled=true;
+                    document.getElementById('adm8policy').disabled=true;
+                    document.getElementById('adm10policy').disabled=true;
+                    document.getElementById('adm11policy').disabled=true;
+                    document.getElementById('adm12policy').disabled=false;
+                    document.getElementById('adm13policy').disabled=true;
+                    document.getElementById('adm14policy').disabled=true;
+                    document.getElementById('adm17policy').disabled=true;
+                    document.getElementById('adm19policy').disabled=true;
+                    break;
+                case '192.168.159.163': 
+                    document.getElementById('adm1policy').disabled=true;
+                    document.getElementById('adm5policy').disabled=true;
+                    document.getElementById('adm6policy').disabled=true;
+                    document.getElementById('adm8policy').disabled=true;
+                    document.getElementById('adm10policy').disabled=true;
+                    document.getElementById('adm11policy').disabled=true;
+                    document.getElementById('adm12policy').disabled=true;
+                    document.getElementById('adm13policy').disabled=false;
+                    document.getElementById('adm14policy').disabled=true;
+                    document.getElementById('adm17policy').disabled=true;
+                    document.getElementById('adm19policy').disabled=true;
+                    break;
+                case '192.168.159.164': 
+                    document.getElementById('adm1policy').disabled=true;
+                    document.getElementById('adm5policy').disabled=true;
+                    document.getElementById('adm6policy').disabled=true;
+                    document.getElementById('adm8policy').disabled=true;
+                    document.getElementById('adm10policy').disabled=true;
+                    document.getElementById('adm11policy').disabled=true;
+                    document.getElementById('adm12policy').disabled=true;
+                    document.getElementById('adm13policy').disabled=true;
+                    document.getElementById('adm14policy').disabled=false;
+                    document.getElementById('adm17policy').disabled=true;
+                    document.getElementById('adm19policy').disabled=true;
                     break;
                 case '192.168.159.167': 
                     document.getElementById('adm1policy').disabled=true;
                     document.getElementById('adm5policy').disabled=true;
+                    document.getElementById('adm6policy').disabled=true;
+                    document.getElementById('adm8policy').disabled=true;
+                    document.getElementById('adm10policy').disabled=true;
                     document.getElementById('adm11policy').disabled=true;
+                    document.getElementById('adm12policy').disabled=true;
+                    document.getElementById('adm13policy').disabled=true;
+                    document.getElementById('adm14policy').disabled=true;
                     document.getElementById('adm17policy').disabled=false;
+                    document.getElementById('adm19policy').disabled=true;
+                    break;
+                case '192.168.159.169': 
+                    document.getElementById('adm1policy').disabled=true;
+                    document.getElementById('adm5policy').disabled=true;
+                    document.getElementById('adm6policy').disabled=true;
+                    document.getElementById('adm8policy').disabled=true;
+                    document.getElementById('adm10policy').disabled=true;
+                    document.getElementById('adm11policy').disabled=true;
+                    document.getElementById('adm12policy').disabled=true;
+                    document.getElementById('adm13policy').disabled=true;
+                    document.getElementById('adm14policy').disabled=true;
+                    document.getElementById('adm17policy').disabled=true;
+                    document.getElementById('adm19policy').disabled=false;
                     break;
                 default: 
                     document.getElementById('adm1policy').disabled=true;
                     document.getElementById('adm5policy').disabled=true;
+                    document.getElementById('adm6policy').disabled=true;
+                    document.getElementById('adm8policy').disabled=true;
+                    document.getElementById('adm10policy').disabled=true;
                     document.getElementById('adm11policy').disabled=true;
+                    document.getElementById('adm12policy').disabled=true;
+                    document.getElementById('adm13policy').disabled=true;
+                    document.getElementById('adm14policy').disabled=true;
                     document.getElementById('adm17policy').disabled=true;
+                    document.getElementById('adm19policy').disabled=true;
             }
     
         }
