@@ -109,6 +109,13 @@ def parse_access_rule(result_json, packet_mode_json, ip_addr,sid, inline=False):
             else:
                 print(object_d[x])
                 print("<br>")
+         ## 04.09
+        print("Action : <br>")
+        if(inline == True):
+            print("<blockquote>" + object_d[result_json['rulebase'][i]['action']] + "</blockquote>")
+        else:
+            print(object_d[result_json['rulebase'][i]['action']])
+            print("<br>")
         #print(result_json['rulebase'][i]['service'])
         try:
             #not a big fan of the var scope
@@ -173,7 +180,7 @@ def parse_access_section(result_json, packet_mode_json, ip_addr, sid, inline=Fal
                     #print("<br>")
                 else:
                     print(object_d[x])
-                    #print("<br>")
+                    print("<br>")
             #print(result_json['rulebase'][outer_index]['rulebase'][rule]['destination'])
             if(inline == True):
                 print("<blockquote>Services :</blockquote>")
@@ -187,6 +194,14 @@ def parse_access_section(result_json, packet_mode_json, ip_addr, sid, inline=Fal
                     print(object_d[x])
                     print("<br>")
             #print(result_json['rulebase'][outer_index]['rulebase'][rule]['service'])
+            ## 04.09
+            if(inline == True):
+                print("<blockquote>Action : </blockquote>")
+                print("<blockquote>" + object_d[result_json['rulebase'][outer_index]['rulebase'][rule]['action']] + "</blockquote>")
+            else:
+                print("Action : <br>")
+                print(object_d[result_json['rulebase'][outer_index]['rulebase'][rule]['action']])
+                print("<br>")
             try:
                 #not a big fan of the var scope
                 inline_uid = result_json['rulebase'][outer_index]['rulebase'][rule]['inline-layer'] 

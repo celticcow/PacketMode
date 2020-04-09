@@ -102,6 +102,13 @@ def parse_access_rule(result_json, packet_mode_json, ip_addr,sid, inline=False):
             else:
                 print(object_d[x])
         #print(result_json['rulebase'][i]['service'])
+        ## 04.09
+        if(inline == True):
+            print("\tAction : ")
+            print("\t" + object_d[result_json['rulebase'][i]['action']])
+        else:
+            print("Action : ")
+            print(object_d[result_json['rulebase'][i]['action']])
         try:
             #not a big fan of the var scope
             inline_uid = result_json['rulebase'][i]['inline-layer'] 
@@ -169,6 +176,18 @@ def parse_access_section(result_json, packet_mode_json, ip_addr, sid, inline=Fal
                     print("\t" + object_d[x])
                 else:
                     print(object_d[x])
+            ## 04.09
+            if(inline == True):
+                print("\tAction : ")
+                print("\t" + object_d[result_json['rulebase'][outer_index]['rulebase'][rule]['action']])
+            else:
+                print("Action : ")
+                print(object_d[result_json['rulebase'][outer_index]['rulebase'][rule]['action']])
+            #action = result_json['rulebase'][outer_index]['rulebase'][rule]['action']
+            #print("@@ " + x + " @@")
+            #print(object_d[action])
+            #print(object_d[result_json['rulebase'][outer_index]['rulebase'][rule]['action']])
+            #print(object_d[print(result_json['rulebase'][outer_index]['rulebase'][rule]['action'])])
             #print(result_json['rulebase'][outer_index]['rulebase'][rule]['service'])
             try:
                 #not a big fan of the var scope
@@ -420,14 +439,14 @@ def main():
     if(debug == 1):
         print("packet mode search  : version 0.3")
 
-    parser = argparse.ArgumentParser(description='Policy Extractor')
-    parser.add_argument("-m", required=True, help="MDS IP")
-    parser.add_argument("-c", required=True, help="CMA IP")
+    #parser = argparse.ArgumentParser(description='Policy Extractor')
+    #parser.add_argument("-m", required=True, help="MDS IP")
+    #parser.add_argument("-c", required=True, help="CMA IP")
 
-    args = parser.parse_args()
+    #args = parser.parse_args()
 
-    ip_addr  = args.m
-    ip_cma   = args.c
+    ip_addr  = "146.18.96.16" #args.m
+    ip_cma   = "146.18.96.25" #args.c
     user     = "roapi"
     password = "1qazxsw2"
 
